@@ -1,0 +1,23 @@
+/*.button{
+    float: left;
+}*/
+.button:hover{
+    background-color: darkslateblue;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.input-group-label{
+    width: 50%;
+    background:lightgray;
+}
+
+[class="success button"]{
+    color: white;
+}
+
+
