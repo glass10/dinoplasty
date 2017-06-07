@@ -16,6 +16,10 @@ ul {
     background:lightgray;
 }
 
+.star{
+    background: gold;
+}
+
 [class="success button"]{
     color: white;
 }

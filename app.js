@@ -32,8 +32,23 @@ const app = {
                     <input type="button" id="delete" class="alert button" onClick=app.delete(this.parentNode.id) value="✗">
                 </div>
         `
+        const starhtml = `
+                <span class="input-group-label star" id="${idLabel}">${dino.name}</span>
+                <div class="input-group-button" id="${dino.name}">
+                    <input type="button" id="up" class="button" onClick=app.up(this.parentNode.id) value="↑">
+                    <input type="button" id="down" class="button" onClick=app.down(this.parentNode.id) value="↓">
+                    <input type="button" id="star" class="success button" onClick=app.star(this.parentNode.id) value="★">
+                    <input type="button" id="delete" class="alert button" onClick=app.delete(this.parentNode.id) value="✗">
+                </div>
+        `
         const item = document.createElement('li');
-        item.innerHTML = html;
+        if(dino.star){
+            item.innerHTML = starhtml;
+        }
+        else{
+            item.innerHTML = html;
+        }
+        
         return item;
     },
 
@@ -73,8 +88,13 @@ const app = {
     delete(id){
         for(var i = 0; i < this.dinos.length; i++){
             if(this.dinos[i].name === id){
-                // this.dinos[i].star = true;
+                this.dinos.splice(i, 1);
+                app.list.innerHTML = "";
 
+                for(var j = this.dinos.length-1; j >= 0; j--){
+                    const listItem = this.renderListItem(this.dinos[j]);
+                    this.list.appendChild(listItem);
+                }
             }
         }
     },
