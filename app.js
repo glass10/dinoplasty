@@ -8,32 +8,25 @@ const app = {
             .addEventListener("submit", this.addDino.bind(this))
 
         app.list.innerHTML = "";
-
-        for(var j = 0; j < localStorage.length; j++){
-            //localStorage.g
-            this.dinos[j] = JSON.parse(localStorage.getItem(localStorage.key(j)));
-            //const listItem = this.renderListItem(this.dinos[j]);
-            //this.list.appendChild(listItem);
+        if(localStorage.getItem("dinos") !== null){
+            this.dinos = JSON.parse(localStorage.getItem("dinos"));
         }
+
         for(var j = 0; j < this.dinos.length; j++){
-                    const temp = JSON.parse(localStorage.getItem(this.dinos[j].name));
+                    
                     if(j === 0){
                         this.dinos[j].first = true;
-                            temp.first = true;
                     }
                     else{
                         this.dinos[j].first = false;
-                            temp.first = false;
                     }
                     if(j === this.dinos.length-1){
                         this.dinos[j].last = true;
-                            temp.last = true;
                     }
                     else{
                         this.dinos[j].last = false;
-                            temp.last = false;
                     }
-                    localStorage.setItem(this.dinos[j].name, JSON.stringify(temp));
+                    localStorage.setItem("dinos", JSON.stringify(this.dinos));
                     const listItem = this.renderListItem(this.dinos[j]);
                     this.list.appendChild(listItem);
                 }
@@ -51,33 +44,26 @@ const app = {
 
         }
         this.dinos.unshift(dino);
-        localStorage.setItem(dino.name, JSON.stringify(dino));
+        localStorage.setItem("dinos", JSON.stringify(this.dinos));
 
         app.list.innerHTML = "";
 
         for(var j = 0; j < this.dinos.length; j++){
             this.dinos[j].id = j;
-            const temp = JSON.parse(localStorage.getItem(dino.name));
-            temp.id = j;
 
             if(j === 0){
                 this.dinos[j].first = true;
-                    temp.first = true;
             }
             else{
                 this.dinos[j].first = false;
-                    temp.first = false;
             }
             if(j === this.dinos.length-1){
                 this.dinos[j].last = true;
-                    temp.last = true;
             }
             else{
                 this.dinos[j].last = false;
-                    temp.last = false;
             }
 
-            localStorage.setItem(dino.name, JSON.stringify(temp));
             const listItem = this.renderListItem(this.dinos[j]);
             this.list.appendChild(listItem);
         }
@@ -144,27 +130,24 @@ const app = {
                 this.dinos[i].id = this.dinos[i-1].id;
                 this.dinos[i-1].id = idTemp;
 
+                localStorage.setItem("dinos", JSON.stringify(this.dinos));
+
                 app.list.innerHTML = "";
 
                 for(var j = 0; j < this.dinos.length; j++){
-                    const temp = JSON.parse(localStorage.getItem(this.dinos[j].name));
                     if(j === 0){
                         this.dinos[j].first = true;
-                            temp.first = true;
                     }
                     else{
                         this.dinos[j].first = false;
-                            temp.first = false;
                     }
                     if(j === this.dinos.length-1){
                         this.dinos[j].last = true;
-                            temp.last = true;
                     }
                     else{
                         this.dinos[j].last = false;
-                            temp.last = false;
                     }
-                    localStorage.setItem(this.dinos[j].name, JSON.stringify(temp));
+                    localStorage.setItem("dinos", JSON.stringify(this.dinos));
                     const listItem = this.renderListItem(this.dinos[j]);
                     this.list.appendChild(listItem);
                 }
@@ -186,24 +169,19 @@ const app = {
                 app.list.innerHTML = "";
 
                 for(var j = 0; j < this.dinos.length; j++){
-                    const temp = JSON.parse(localStorage.getItem(this.dinos[j].name));
                     if(j === 0){
                         this.dinos[j].first = true;
-                            temp.first = true;
                     }
                     else{
                         this.dinos[j].first = false;
-                            temp.first = false;
                     }
                     if(j === this.dinos.length-1){
                         this.dinos[j].last = true;
-                            temp.last = true;
                     }
                     else{
                         this.dinos[j].last = false;
-                            temp.last = false;
                     }
-                    localStorage.setItem(this.dinos[j].name, JSON.stringify(temp));
+                    localStorage.setItem("dinos", JSON.stringify(this.dinos));
                     const listItem = this.renderListItem(this.dinos[j]);
                     this.list.appendChild(listItem);
                 }
@@ -222,18 +200,14 @@ const app = {
                     this.dinos[i].star = false;
                     label.style.backgroundColor = "LightGray";
 
-                    const temp = JSON.parse(localStorage.getItem(id));
-                    temp.star = false;
-                    localStorage.setItem(id, JSON.stringify(temp));
+                    localStorage.setItem("dinos", JSON.stringify(this.dinos));
                 }
                 else{
                     this.dinos[i].star = true;
                     label.style.backgroundColor = "Gold";
                     button.className += " select";
 
-                    const temp = JSON.parse(localStorage.getItem(id));
-                    temp.star = true;
-                    localStorage.setItem(id, JSON.stringify(temp));
+                    localStorage.setItem("dinos", JSON.stringify(this.dinos));
                 }
             }
         }
@@ -242,28 +216,23 @@ const app = {
         for(var i = 0; i < this.dinos.length; i++){
             if(this.dinos[i].name === id){
                 this.dinos.splice(i, 1);
-                localStorage.removeItem(id);
+                localStorage.setItem("dinos", JSON.stringify(this.dinos))
                 app.list.innerHTML = "";
 
                 for(var j = 0; j < this.dinos.length; j++){
-                    const temp = JSON.parse(localStorage.getItem(this.dinos[j].name));
                     if(j === 0){
                         this.dinos[j].first = true;
-                            temp.first = true;
                     }
                     else{
                         this.dinos[j].first = false;
-                            temp.first = false;
                     }
                     if(j === this.dinos.length-1){
                         this.dinos[j].last = true;
-                            temp.last = true;
                     }
                     else{
                         this.dinos[j].last = false;
-                            temp.last = false;
                     }
-                    localStorage.setItem(this.dinos[j].name, JSON.stringify(temp));
+                    localStorage.setItem("dinos", JSON.stringify(this.dinos));
                     const listItem = this.renderListItem(this.dinos[j]);
                     this.list.appendChild(listItem);
                 }
