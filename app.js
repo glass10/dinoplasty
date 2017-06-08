@@ -37,7 +37,6 @@ const app = {
                     const listItem = this.renderListItem(this.dinos[j]);
                     this.list.appendChild(listItem);
                 }
-        console.log(this.dinos[0].name);
     },
 
     addDino(ev){
@@ -247,6 +246,24 @@ const app = {
                 app.list.innerHTML = "";
 
                 for(var j = 0; j < this.dinos.length; j++){
+                    const temp = JSON.parse(localStorage.getItem(this.dinos[j].name));
+                    if(j === 0){
+                        this.dinos[j].first = true;
+                            temp.first = true;
+                    }
+                    else{
+                        this.dinos[j].first = false;
+                            temp.first = false;
+                    }
+                    if(j === this.dinos.length-1){
+                        this.dinos[j].last = true;
+                            temp.last = true;
+                    }
+                    else{
+                        this.dinos[j].last = false;
+                            temp.last = false;
+                    }
+                    localStorage.setItem(this.dinos[j].name, JSON.stringify(temp));
                     const listItem = this.renderListItem(this.dinos[j]);
                     this.list.appendChild(listItem);
                 }
