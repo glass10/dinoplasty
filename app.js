@@ -27,9 +27,13 @@ const app = {
 
     renderListItem(dino){
         let min = 1000;
+        let newMax = 0;
         for(var i = 0; i < this.dinos.length; i++){
             if(this.dinos[i].id < min){
                 min = this.dinos[i].id;
+            }
+            if(this.dinos[i].id > newMax){
+                newMax = this.dinos[i].id;
             }
         }
 
@@ -46,7 +50,7 @@ const app = {
         if(dino.id === min){
             downButton = `<input type="button" id="${downLabel}" class="disabled button" onClick=app.down(this.parentNode.id) value="↓">`
         }
-        if(dino.id === this.max){
+        if(dino.id === newMax){
             upButton = `<input type="button" id="${upLabel}" class="disabled button" onClick=app.up(this.parentNode.id) value="↑">`
         }
 
@@ -69,8 +73,19 @@ const app = {
         const upLabel = id+"-up";
         const button = document.getElementById(upLabel);
         for(var i = 0; i < this.dinos.length; i++){
-            if(this.dinos[i].name === id){
-                //this.dinos.move(i, i-1);
+            if(this.dinos[i].name === id && i !== 0){
+                this.dinos.move(this.dinos[i], -1);
+
+                let idTemp = this.dinos[i].id;
+                this.dinos[i].id = this.dinos[i-1].id;
+                this.dinos[i-1].id = idTemp;
+
+                app.list.innerHTML = "";
+
+                for(var j = 0; j < this.dinos.length; j++){
+                    const listItem = this.renderListItem(this.dinos[j]);
+                    this.list.appendChild(listItem);
+                }
             }
         }
     },
@@ -79,8 +94,20 @@ const app = {
         const downLabel = id+"-down";
         const button = document.getElementById(downLabel);
         for(var i = 0; i < this.dinos.length; i++){
-            if(this.dinos[i].name === id){
-                //this.dinos.move(i, i+1);
+            if(this.dinos[i].name === id && i !== this.dinos.length-1){
+                this.dinos.move(this.dinos[i], 1);
+                
+                let idTemp = this.dinos[i].id;
+                this.dinos[i].id = this.dinos[i+1].id;
+                this.dinos[i+1].id = idTemp;
+
+                app.list.innerHTML = "";
+
+                for(var j = 0; j < this.dinos.length; j++){
+                    const listItem = this.renderListItem(this.dinos[j]);
+                    this.list.appendChild(listItem);
+                }
+                break;
             }
         }
     },
@@ -120,12 +147,15 @@ app.init({
         listSelector: "#dino-list",
     });
 
-Array.prototype.move = function (old_index, new_index) {
-    if (new_index >= this.length) {
-        var k = new_index - this.length;
-        while ((k--) + 1) {
-            this.push(undefined);
-        }
-    }
-    this.splice(new_index, 0, this.splice(old_index, 1)[0]);
-};
+Array.prototype.move = function (element, offset){
+  const index = this.indexOf(element)
+  const newIndex = index + offset
+  
+  if (newIndex > -1 && newIndex < this.length){
+    // Remove the element from the array
+    const removedElement = this.splice(index, 1)[0]
+  
+    // At "newIndex", remove 0 elements, insert the removed element
+    this.splice(newIndex, 0, removedElement)
+  }
+}
