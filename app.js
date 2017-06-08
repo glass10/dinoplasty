@@ -87,12 +87,14 @@ const app = {
         const upLabel = dino.name+"-up";
         const downLabel = dino.name+"-down";
         const starLabel = dino.name+"-star";
-        let span = `<span class="input-group-label" id="${idLabel}">${dino.name}</span>`;
+        let span = `<span class="input-group-label" id="${idLabel}" contenteditable="true">${dino.name}</span>`;
         let upButton = `<input type="button" id="${upLabel}" class="button" onClick=app.up(this.parentNode.id) value="↑">`
         let downButton = `<input type="button" id="${downLabel}" class="button" onClick=app.down(this.parentNode.id) value="↓">`
+        let starButton = `<input type="button" id="${starLabel}" class="warning button" onClick=app.star(this.parentNode.id) value="★">`
         
         if(dino.star){
             span = `<span class="input-group-label star" id="${idLabel}">${dino.name}</span>`
+            starButton = `<input type="button" id="${starLabel}" class="warning button select" onClick=app.star(this.parentNode.id) value="★">`
         }
         if(dino.last){
             downButton = `<input type="button" id="${downLabel}" class="disabled button" onClick=app.down(this.parentNode.id) value="↓">`
@@ -106,7 +108,7 @@ const app = {
                 <div class="input-group-button" id="${dino.name}">
                     ${upButton}
                     ${downButton}
-                    <input type="button" id="${starLabel}" class="warning button" onClick=app.star(this.parentNode.id) value="★">
+                    ${starButton}
                     <input type="button" id="delete" class="alert button" onClick=app.delete(this.parentNode.id) value="✗">
                 </div>
         `
@@ -199,7 +201,7 @@ const app = {
                 if(this.dinos[i].star){
                     this.dinos[i].star = false;
                     label.style.backgroundColor = "LightGray";
-
+                    button.className = "warning button warning"
                     localStorage.setItem("dinos", JSON.stringify(this.dinos));
                 }
                 else{
@@ -238,6 +240,15 @@ const app = {
                 }
             }
         }
+    },
+    edit(){
+        for(var i = 0; i < this.dinos.length; i++){
+            const name = this.dinos[i].name;
+            const label = name+"-label";
+            const labelObj = document.getElementById(label);
+            this.dinos[i].name = labelObj.textContent; 
+        }
+        localStorage.setItem("dinos", JSON.stringify(this.dinos));
     },
 
 }
