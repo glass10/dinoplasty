@@ -5,12 +5,12 @@ const app = {
         this.list = document.querySelector(selectors.listSelector);
         document
             .querySelector(selectors.formSelector)
-            .addEventListener("submit", this.addDino.bind(this));
+            .addEventListener("submit", this.addDino.bind(this))
 
         app.list.innerHTML = "";
 
         for(var j = 0; j < localStorage.length; j++){
-            localStorage.g
+            //localStorage.g
             this.dinos[j] = JSON.parse(localStorage.getItem(localStorage.key(j)));
             const listItem = this.renderListItem(this.dinos[j]);
             this.list.appendChild(listItem);
@@ -20,10 +20,14 @@ const app = {
 
     addDino(ev){
         ev.preventDefault();
+
         const dino = {
             id: ++this.max,
             name: ev.target.dinoName.value,
-            star: false
+            star: false,
+            first: false,
+            last: false
+
         }
         this.dinos.unshift(dino);
         localStorage.setItem(dino.name, JSON.stringify(dino));
@@ -31,10 +35,33 @@ const app = {
         app.list.innerHTML = "";
 
         for(var j = 0; j < this.dinos.length; j++){
+            this.dinos[j].id = j;
+            const temp = JSON.parse(localStorage.getItem(dino.name));
+            temp.id = j;
+
+            if(j === 0){
+                this.dinos[j].first = true;
+                    temp.first = true;
+            }
+            else{
+                this.dinos[j].first = false;
+                    temp.first = false;
+            }
+            if(j === this.dinos.length-1){
+                this.dinos[j].last = true;
+                    temp.last = true;
+            }
+            else{
+                this.dinos[j].last = false;
+                    temp.last = false;
+            }
+
+            localStorage.setItem(dino.name, JSON.stringify(temp));
             const listItem = this.renderListItem(this.dinos[j]);
             this.list.appendChild(listItem);
         }
         console.log(this.dinos[0].name);
+        ev.target.reset();
     },
 
     renderListItem(dino){
@@ -60,10 +87,10 @@ const app = {
         if(dino.star){
             span = `<span class="input-group-label star" id="${idLabel}">${dino.name}</span>`
         }
-        if(dino.id === min){
+        if(dino.last){
             downButton = `<input type="button" id="${downLabel}" class="disabled button" onClick=app.down(this.parentNode.id) value="↓">`
         }
-        if(dino.id === newMax){
+        if(dino.first){
             upButton = `<input type="button" id="${upLabel}" class="disabled button" onClick=app.up(this.parentNode.id) value="↑">`
         }
 
@@ -87,6 +114,9 @@ const app = {
         const button = document.getElementById(upLabel);
         for(var i = 0; i < this.dinos.length; i++){
             if(this.dinos[i].name === id && i !== 0){
+                // if(this.dinos[i].first){
+                //     this.dinos[i].first = false;
+                // }
                 this.dinos.move(this.dinos[i], -1);
 
                 let idTemp = this.dinos[i].id;
