@@ -6,6 +6,16 @@ const app = {
         document
             .querySelector(selectors.formSelector)
             .addEventListener("submit", this.addDino.bind(this));
+
+        app.list.innerHTML = "";
+
+        for(var j = 0; j < localStorage.length; j++){
+            localStorage.g
+            this.dinos[j] = JSON.parse(localStorage.getItem(localStorage.key(j)));
+            const listItem = this.renderListItem(this.dinos[j]);
+            this.list.appendChild(listItem);
+        }
+        console.log(this.dinos[0].name);
     },
 
     addDino(ev){
@@ -16,6 +26,8 @@ const app = {
             star: false
         }
         this.dinos.unshift(dino);
+        localStorage.setItem(dino.name, JSON.stringify(dino));
+
         app.list.innerHTML = "";
 
         for(var j = 0; j < this.dinos.length; j++){
@@ -40,6 +52,7 @@ const app = {
         const idLabel = dino.name+"-label";
         const upLabel = dino.name+"-up";
         const downLabel = dino.name+"-down";
+        const starLabel = dino.name+"-star";
         let span = `<span class="input-group-label" id="${idLabel}">${dino.name}</span>`;
         let upButton = `<input type="button" id="${upLabel}" class="button" onClick=app.up(this.parentNode.id) value="↑">`
         let downButton = `<input type="button" id="${downLabel}" class="button" onClick=app.down(this.parentNode.id) value="↓">`
@@ -59,7 +72,7 @@ const app = {
                 <div class="input-group-button" id="${dino.name}">
                     ${upButton}
                     ${downButton}
-                    <input type="button" id="star" class="success button" onClick=app.star(this.parentNode.id) value="★">
+                    <input type="button" id="${starLabel}" class="success button" onClick=app.star(this.parentNode.id) value="★">
                     <input type="button" id="delete" class="alert button" onClick=app.delete(this.parentNode.id) value="✗">
                 </div>
         `
@@ -113,16 +126,27 @@ const app = {
     },
     star(id){
         const idLabel = id+"-label";
+        const starLabel = id+"-star";
         const label = document.getElementById(idLabel);
+        const button = document.getElementById(starLabel);
         for(var i = 0; i < this.dinos.length; i++){
             if(this.dinos[i].name === id){
                 if(this.dinos[i].star){
                     this.dinos[i].star = false;
                     label.style.backgroundColor = "LightGray";
+
+                    const temp = JSON.parse(localStorage.getItem(id));
+                    temp.star = false;
+                    localStorage.setItem(id, JSON.stringify(temp));
                 }
                 else{
                     this.dinos[i].star = true;
                     label.style.backgroundColor = "Gold";
+                    button.className += " select";
+
+                    const temp = JSON.parse(localStorage.getItem(id));
+                    temp.star = true;
+                    localStorage.setItem(id, JSON.stringify(temp));
                 }
             }
         }
@@ -131,6 +155,7 @@ const app = {
         for(var i = 0; i < this.dinos.length; i++){
             if(this.dinos[i].name === id){
                 this.dinos.splice(i, 1);
+                localStorage.removeItem(id);
                 app.list.innerHTML = "";
 
                 for(var j = 0; j < this.dinos.length; j++){
