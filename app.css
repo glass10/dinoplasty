@@ -9,6 +9,10 @@ ul {
     margin: 0;
     padding: 0;
 }
+img{
+    padding-top: 10px;
+    padding-bottom: 0px;
+}
 
 .dino-fact{
     padding: 0;
