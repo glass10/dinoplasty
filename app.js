@@ -233,12 +233,17 @@ const app = {
             }
         }
     },
-    edit(){ 
+    edit(){
+        //console.clear(); 
         for(var i = 0; i < this.dinos.length; i++){
             const name = this.dinos[i].name;
             const label = name+"-label";
+            const div = document.getElementById(name);
             const labelObj = document.getElementById(label);
-            this.dinos[i].name = labelObj.textContent; 
+            const text = labelObj.textContent;
+
+            this.dinos[i].name = text;
+            div.id = text;
         }
         localStorage.setItem("dinos", JSON.stringify(this.dinos));
     },
