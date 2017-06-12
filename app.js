@@ -38,6 +38,7 @@ const app = {
         const dino = {
             id: ++this.max,
             name: ev.target.dinoName.value,
+            fact: ev.target.dinoFact.value,
             star: false,
             first: false,
             last: false
@@ -72,17 +73,6 @@ const app = {
     },
 
     renderListItem(dino){
-        let min = 1000;
-        let newMax = 0;
-        for(var i = 0; i < this.dinos.length; i++){
-            if(this.dinos[i].id < min){
-                min = this.dinos[i].id;
-            }
-            if(this.dinos[i].id > newMax){
-                newMax = this.dinos[i].id;
-            }
-        }
-
         const idLabel = dino.name+"-label";
         const upLabel = dino.name+"-up";
         const downLabel = dino.name+"-down";
@@ -91,9 +81,10 @@ const app = {
         let upButton = `<input type="button" id="${upLabel}" class="button" onClick=app.up(this.parentNode.id) value="↑">`
         let downButton = `<input type="button" id="${downLabel}" class="button" onClick=app.down(this.parentNode.id) value="↓">`
         let starButton = `<input type="button" id="${starLabel}" class="warning button" onClick=app.star(this.parentNode.id) value="★">`
+        let dinoFact = `<span class="dino-fact">${dino.fact}</span>`
         
         if(dino.star){
-            span = `<span class="input-group-label star" id="${idLabel}">${dino.name}</span>`
+            span = `<span class="input-group-label star" id="${idLabel}" contenteditable="true">${dino.name}</span>`
             starButton = `<input type="button" id="${starLabel}" class="warning button select" onClick=app.star(this.parentNode.id) value="★">`
         }
         if(dino.last){
@@ -106,6 +97,7 @@ const app = {
         const html = `
                 ${span}
                 <div class="input-group-button" id="${dino.name}">
+                    ${dinoFact}
                     ${upButton}
                     ${downButton}
                     ${starButton}
@@ -241,7 +233,7 @@ const app = {
             }
         }
     },
-    edit(){
+    edit(){ 
         for(var i = 0; i < this.dinos.length; i++){
             const name = this.dinos[i].name;
             const label = name+"-label";
