@@ -123,6 +123,22 @@ const app = {
         item.innerHTML = html;
         return item;
     },
+    renderSearchItem(dino){
+        const idLabel = dino.name+"-searchlabel";
+        let span = `<span class="input-group-label" id="${idLabel}">${dino.name}</span>`;
+        let dinoFact = `<span class="dino-fact">${dino.fact}</span>`
+
+        const html = `
+                <div class="input-group">
+                ${span}
+                ${dinoFact}
+                </div>
+        `
+
+        const item = document.createElement('li');
+        item.innerHTML = html;
+        return item;
+    },
 
     up(id){
         const upLabel = id+"-up";
@@ -420,21 +436,25 @@ const app = {
             app.search.innerHTML = "";
             for(var i = 0; i < this.herbs.length; i++){
                 if(this.herbs[i].name.includes(text)){
-                    const listItem = this.renderListItem(this.herbs[i]);
+                    const listItem = this.renderSearchItem(this.herbs[i]);
                     this.search.appendChild(listItem);
                 }
             }
             for(var i = 0; i < this.carns.length; i++){
                 if(this.carns[i].name.includes(text)){
-                    const listItem = this.renderListItem(this.carns[i]);
+                    const listItem = this.renderSearchItem(this.carns[i]);
                     this.search.appendChild(listItem);
                 }
             }
             for(var i = 0; i < this.omnis.length; i++){
                 if(this.omnis[i].name.includes(text)){
-                    const listItem = this.renderListItem(this.omnis[i]);
+                    const listItem = this.renderSearchItem(this.omnis[i]);
                     this.search.appendChild(listItem);
                 }
+            }
+            const length = document.getElementById("search-list").getElementsByTagName("li").length;
+            if(length === 0){
+                app.search.innerHTML = "<center><span>No results found</span></center>"
             }
         }
         else{

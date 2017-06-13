@@ -88,5 +88,8 @@ select:hover{
     width: 50%;
 }
 
+.searchSpan{
+    float: left;
+}
 
 
