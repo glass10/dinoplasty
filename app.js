@@ -1,35 +1,35 @@
 const app = {
     init(selectors){
         this.dinos = []
+        this.herbs = [];
+        this.carns= [];
+        this.omnis = [];
         this.max = 0;
+        this.herb = document.querySelector(selectors.herbSelector);
+        this.carn = document.querySelector(selectors.carnSelector);
+        this.omni = document.querySelector(selectors.omniSelector);
         this.list = document.querySelector(selectors.listSelector);
         document
             .querySelector(selectors.formSelector)
             .addEventListener("submit", this.addDino.bind(this))
 
-        app.list.innerHTML = "";
-        if(localStorage.getItem("dinos") !== null){
-            this.dinos = JSON.parse(localStorage.getItem("dinos"));
+        app.herb.innerHTML = "";
+        app.carn.innerHTML = "";
+        app.omni.innerHTML = "";
+
+        if(localStorage.getItem("herbs") !== null){
+            this.herbs = JSON.parse(localStorage.getItem("herbs"));
+        }
+        if(localStorage.getItem("carns") !== null){
+            this.carns = JSON.parse(localStorage.getItem("carns"));
+        }
+        if(localStorage.getItem("omnis") !== null){
+            this.omnis = JSON.parse(localStorage.getItem("omnis"));
         }
 
-        for(var j = 0; j < this.dinos.length; j++){
-                    
-                    if(j === 0){
-                        this.dinos[j].first = true;
-                    }
-                    else{
-                        this.dinos[j].first = false;
-                    }
-                    if(j === this.dinos.length-1){
-                        this.dinos[j].last = true;
-                    }
-                    else{
-                        this.dinos[j].last = false;
-                    }
-                    localStorage.setItem("dinos", JSON.stringify(this.dinos));
-                    const listItem = this.renderListItem(this.dinos[j]);
-                    this.list.appendChild(listItem);
-                }
+        app.loopHerb();
+        app.loopCarn();
+        app.loopOmni();
     },
 
     addDino(ev){
@@ -44,31 +44,28 @@ const app = {
             last: false
 
         }
-        this.dinos.unshift(dino);
-        localStorage.setItem("dinos", JSON.stringify(this.dinos));
 
-        app.list.innerHTML = "";
-
-        for(var j = 0; j < this.dinos.length; j++){
-            this.dinos[j].id = j;
-
-            if(j === 0){
-                this.dinos[j].first = true;
-            }
-            else{
-                this.dinos[j].first = false;
-            }
-            if(j === this.dinos.length-1){
-                this.dinos[j].last = true;
-            }
-            else{
-                this.dinos[j].last = false;
-            }
-
-            const listItem = this.renderListItem(this.dinos[j]);
-            this.list.appendChild(listItem);
+        if(dino.fact === "Herbivore"){
+            this.herbs.unshift(dino);
+            localStorage.setItem("herbs", JSON.stringify(this.herbs));
         }
-        console.log(this.dinos[0].name);
+        else if(dino.fact === "Carnivore"){
+            this.carns.unshift(dino);
+            localStorage.setItem("carns", JSON.stringify(this.carns));
+        }
+        else{
+            this.omnis.unshift(dino);
+            localStorage.setItem("omnis", JSON.stringify(this.omnis));
+        }
+
+        app.herb.innerHTML = "";
+        app.carn.innerHTML = "";
+        app.omni.innerHTML = "";
+
+        app.loopHerb();
+        app.loopCarn();
+        app.loopOmni();
+
         ev.target.reset();
     },
 
@@ -113,145 +110,289 @@ const app = {
     up(id){
         const upLabel = id+"-up";
         const button = document.getElementById(upLabel);
-        for(var i = 0; i < this.dinos.length; i++){
-            if(this.dinos[i].name === id && i !== 0){
-                // if(this.dinos[i].first){
-                //     this.dinos[i].first = false;
-                // }
-                this.dinos.move(this.dinos[i], -1);
+        for(var i = 0; i < this.herbs.length; i++){
+            if(this.herbs[i].name === id && i !== 0){
+                this.herbs.move(this.herbs[i], -1);
 
-                let idTemp = this.dinos[i].id;
-                this.dinos[i].id = this.dinos[i-1].id;
-                this.dinos[i-1].id = idTemp;
+                let idTemp = this.herbs[i].id;
+                this.herbs[i].id = this.herbs[i-1].id;
+                this.herbs[i-1].id = idTemp;
 
-                localStorage.setItem("dinos", JSON.stringify(this.dinos));
-
-                app.list.innerHTML = "";
-
-                for(var j = 0; j < this.dinos.length; j++){
-                    if(j === 0){
-                        this.dinos[j].first = true;
-                    }
-                    else{
-                        this.dinos[j].first = false;
-                    }
-                    if(j === this.dinos.length-1){
-                        this.dinos[j].last = true;
-                    }
-                    else{
-                        this.dinos[j].last = false;
-                    }
-                    localStorage.setItem("dinos", JSON.stringify(this.dinos));
-                    const listItem = this.renderListItem(this.dinos[j]);
-                    this.list.appendChild(listItem);
-                }
+                localStorage.setItem("herbs", JSON.stringify(this.herbs));
             }
         }
+        for(var i = 0; i < this.carns.length; i++){
+            if(this.carns[i].name === id && i !== 0){
+                this.carns.move(this.carns[i], -1);
+
+                let idTemp = this.carns[i].id;
+                this.carns[i].id = this.carns[i-1].id;
+                this.carns[i-1].id = idTemp;
+
+                localStorage.setItem("carns", JSON.stringify(this.carns));
+            }
+        }
+        for(var i = 0; i < this.omnis.length; i++){
+            if(this.omnis[i].name === id && i !== 0){
+                this.omnis.move(this.omnis[i], -1);
+
+                let idTemp = this.omnis[i].id;
+                this.omnis[i].id = this.omnis[i-1].id;
+                this.omnis[i-1].id = idTemp;
+
+                localStorage.setItem("omnis", JSON.stringify(this.omnis));
+            }
+        }
+                app.herb.innerHTML = "";
+                app.carn.innerHTML = "";
+                app.omni.innerHTML = "";
+
+                app.loopHerb();
+                app.loopCarn();
+                app.loopOmni();
     },
 
     down(id){
         const downLabel = id+"-down";
         const button = document.getElementById(downLabel);
-        for(var i = 0; i < this.dinos.length; i++){
-            if(this.dinos[i].name === id && i !== this.dinos.length-1){
-                this.dinos.move(this.dinos[i], 1);
-                
-                let idTemp = this.dinos[i].id;
-                this.dinos[i].id = this.dinos[i+1].id;
-                this.dinos[i+1].id = idTemp;
+        for(var i = 0; i < this.herbs.length; i++){
+            if(this.herbs[i].name === id && i !== this.herbs.length-1){
+                this.herbs.move(this.herbs[i], 1);
 
-                app.list.innerHTML = "";
+                let idTemp = this.herbs[i].id;
+                this.herbs[i].id = this.herbs[i+1].id;
+                this.herbs[i+1].id = idTemp;
 
-                for(var j = 0; j < this.dinos.length; j++){
-                    if(j === 0){
-                        this.dinos[j].first = true;
-                    }
-                    else{
-                        this.dinos[j].first = false;
-                    }
-                    if(j === this.dinos.length-1){
-                        this.dinos[j].last = true;
-                    }
-                    else{
-                        this.dinos[j].last = false;
-                    }
-                    localStorage.setItem("dinos", JSON.stringify(this.dinos));
-                    const listItem = this.renderListItem(this.dinos[j]);
-                    this.list.appendChild(listItem);
-                }
+                localStorage.setItem("herbs", JSON.stringify(this.herbs));
                 break;
             }
         }
+        for(var i = 0; i < this.carns.length; i++){
+            if(this.carns[i].name === id && i !== this.carns.length -1){
+                this.carns.move(this.carns[i], 1);
+
+                let idTemp = this.carns[i].id;
+                this.carns[i].id = this.carns[i+1].id;
+                this.carns[i+1].id = idTemp;
+
+                localStorage.setItem("carns", JSON.stringify(this.carns));
+                break;
+            }
+        }
+        for(var i = 0; i < this.omnis.length; i++){
+            if(this.omnis[i].name === id && i !== this.omnis.length-1){
+                this.omnis.move(this.omnis[i], 1);
+
+                let idTemp = this.omnis[i].id;
+                this.omnis[i].id = this.omnis[i+1].id;
+                this.omnis[i+1].id = idTemp;
+
+                localStorage.setItem("omnis", JSON.stringify(this.omnis));
+                break;
+            }
+        }
+                app.herb.innerHTML = "";
+                app.carn.innerHTML = "";
+                app.omni.innerHTML = "";
+
+                app.loopHerb();
+                app.loopCarn();
+                app.loopOmni();
     },
     star(id){
+        const idC = id;
         const idLabel = id+"-label";
         const starLabel = id+"-star";
         const label = document.getElementById(idLabel);
         const button = document.getElementById(starLabel);
-        for(var i = 0; i < this.dinos.length; i++){
-            if(this.dinos[i].name === id){
-                if(this.dinos[i].star){
-                    this.dinos[i].star = false;
+
+        for(var i = 0; i < this.herbs.length; i++){
+            if(this.herbs[i].name === id){
+                if(this.herbs[i].star){
+                    this.herbs[i].star = false;
                     label.style.backgroundColor = "LightGray";
                     button.className = "warning button warning"
-                    localStorage.setItem("dinos", JSON.stringify(this.dinos));
+                    localStorage.setItem("herbs", JSON.stringify(this.herbs));
                 }
                 else{
-                    this.dinos[i].star = true;
+                    this.herbs[i].star = true;
                     label.style.backgroundColor = "Gold";
                     button.className += " select";
 
-                    localStorage.setItem("dinos", JSON.stringify(this.dinos));
+                    localStorage.setItem("herbs", JSON.stringify(this.herbs));
+                }
+            }
+        }
+        for(var i = 0; i < this.carns.length; i++){
+            if(this.carns[i].name === id){
+                if(this.carns[i].star){
+                    this.carns[i].star = false;
+                    label.style.backgroundColor = "LightGray";
+                    button.className = "warning button warning"
+                    localStorage.setItem("carns", JSON.stringify(this.carns));
+                }
+                else{
+                    this.carns[i].star = true;
+                    label.style.backgroundColor = "Gold";
+                    button.className += " select";
+
+                    localStorage.setItem("carns", JSON.stringify(this.carns));
+                }
+            }
+        }
+        for(var i = 0; i < this.omnis.length; i++){
+            if(this.omnis[i].name === id){
+                if(this.omnis[i].star){
+                    this.omnis[i].star = false;
+                    label.style.backgroundColor = "LightGray";
+                    button.className = "warning button warning"
+                    localStorage.setItem("omnis", JSON.stringify(this.omnis));
+                }
+                else{
+                    this.omnis[i].star = true;
+                    label.style.backgroundColor = "Gold";
+                    button.className += " select";
+
+                    localStorage.setItem("omnis", JSON.stringify(this.omnis));
                 }
             }
         }
     },
     delete(id){
-        for(var i = 0; i < this.dinos.length; i++){
-            if(this.dinos[i].name === id){
-                this.dinos.splice(i, 1);
-                localStorage.setItem("dinos", JSON.stringify(this.dinos))
-                app.list.innerHTML = "";
-
-                for(var j = 0; j < this.dinos.length; j++){
-                    if(j === 0){
-                        this.dinos[j].first = true;
-                    }
-                    else{
-                        this.dinos[j].first = false;
-                    }
-                    if(j === this.dinos.length-1){
-                        this.dinos[j].last = true;
-                    }
-                    else{
-                        this.dinos[j].last = false;
-                    }
-                    localStorage.setItem("dinos", JSON.stringify(this.dinos));
-                    const listItem = this.renderListItem(this.dinos[j]);
-                    this.list.appendChild(listItem);
-                }
+        for(var i = 0; i < this.herbs.length; i++){
+            if(this.herbs[i].name === id){
+                this.herbs.splice(i, 1);
+                localStorage.setItem("herbs", JSON.stringify(this.herbs))
             }
         }
+        for(var i = 0; i < this.carns.length; i++){
+            if(this.carns[i].name === id){
+                this.carns.splice(i, 1);
+                localStorage.setItem("carns", JSON.stringify(this.carns))
+            }
+        }
+        for(var i = 0; i < this.omnis.length; i++){
+            if(this.omnis[i].name === id){
+                this.omnis.splice(i, 1);
+                localStorage.setItem("omnis", JSON.stringify(this.omnis))
+            }
+        }
+        app.herb.innerHTML = "";
+        app.carn.innerHTML = "";
+        app.omni.innerHTML = "";
+
+        app.loopHerb();
+        app.loopCarn();
+        app.loopOmni();
     },
     edit(){
         //console.clear(); 
-        for(var i = 0; i < this.dinos.length; i++){
-            const name = this.dinos[i].name;
+        for(var i = 0; i < this.herbs.length; i++){
+            const name = this.herbs[i].name;
             const label = name+"-label";
             const div = document.getElementById(name);
             const labelObj = document.getElementById(label);
             const text = labelObj.textContent;
 
-            this.dinos[i].name = text;
+            this.herbs[i].name = text;
             div.id = text;
         }
-        localStorage.setItem("dinos", JSON.stringify(this.dinos));
+        localStorage.setItem("herbs", JSON.stringify(this.herbs));
+
+        for(var i = 0; i < this.carns.length; i++){
+            const name = this.carns[i].name;
+            const label = name+"-label";
+            const div = document.getElementById(name);
+            const labelObj = document.getElementById(label);
+            const text = labelObj.textContent;
+
+            this.carns[i].name = text;
+            div.id = text;
+        }
+        localStorage.setItem("carns", JSON.stringify(this.carns));
+
+        for(var i = 0; i < this.omnis.length; i++){
+            const name = this.omnis[i].name;
+            const label = name+"-label";
+            const div = document.getElementById(name);
+            const labelObj = document.getElementById(label);
+            const text = labelObj.textContent;
+
+            this.omnis[i].name = text;
+            div.id = text;
+        }
+        localStorage.setItem("omnis", JSON.stringify(this.omnis));
     },
+    loopHerb(sect){
+        for(var j = 0; j < this.herbs.length; j++){
+            if(j === 0){
+                this.herbs[j].first = true;
+            }
+            else{
+                this.herbs[j].first = false;
+            }
+            if(j === this.herbs.length-1){
+                this.herbs[j].last = true;
+            }
+            else{
+                this.herbs[j].last = false;
+            }
+
+            localStorage.setItem("herbs", JSON.stringify(this.herbs));
+            const listItem = this.renderListItem(this.herbs[j]);
+            this.herb.appendChild(listItem);     
+        }
+    },
+    loopCarn(){
+        for(var j = 0; j < this.carns.length; j++){
+                    
+            if(j === 0){
+                this.carns[j].first = true;
+            }
+            else{
+                this.carns[j].first = false;
+            }
+            if(j === this.carns.length-1){
+                this.carns[j].last = true;
+            }
+            else{
+                this.carns[j].last = false;
+            }
+
+            localStorage.setItem("carns", JSON.stringify(this.carns));
+            const listItem = this.renderListItem(this.carns[j]);
+            this.carn.appendChild(listItem);
+        }
+    },
+    loopOmni(){
+        for(var j = 0; j < this.omnis.length; j++){
+                    
+            if(j === 0){
+                this.omnis[j].first = true;
+            }
+            else{
+                this.omnis[j].first = false;
+            }
+            if(j === this.omnis.length-1){
+                this.omnis[j].last = true;
+            }
+            else{
+                this.omnis[j].last = false;
+            }
+
+            localStorage.setItem("omnis", JSON.stringify(this.omnis));
+            const listItem = this.renderListItem(this.omnis[j]);
+            this.omni.appendChild(listItem);
+        }
+    }
 
 }
 app.init({
         formSelector: "#dino-form",
         listSelector: "#dino-list",
+        herbSelector: "#herb-list",
+        carnSelector: "#carn-list",
+        omniSelector: "#omni-list"
     });
 
 Array.prototype.move = function (element, offset){
