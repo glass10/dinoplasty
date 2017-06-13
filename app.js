@@ -8,7 +8,7 @@ const app = {
         this.herb = document.querySelector(selectors.herbSelector);
         this.carn = document.querySelector(selectors.carnSelector);
         this.omni = document.querySelector(selectors.omniSelector);
-        this.list = document.querySelector(selectors.listSelector);
+        this.search = document.querySelector(selectors.searchSelector);
         document
             .querySelector(selectors.formSelector)
             .addEventListener("submit", this.addDino.bind(this))
@@ -16,6 +16,7 @@ const app = {
         app.herb.innerHTML = "";
         app.carn.innerHTML = "";
         app.omni.innerHTML = "";
+        app.search.innerHTML = "";
 
         if(localStorage.getItem("herbs") !== null){
             this.herbs = JSON.parse(localStorage.getItem("herbs"));
@@ -24,7 +25,7 @@ const app = {
         }
         if(localStorage.getItem("carns") !== null){
             this.carns = JSON.parse(localStorage.getItem("carns"));
-            if(this.carn.length > 0)
+            if(this.carns.length > 0)
                 document.getElementById("CarnH3").className = "visible";
         }
         if(localStorage.getItem("omnis") !== null){
@@ -409,15 +410,47 @@ const app = {
             const listItem = this.renderListItem(this.omnis[j]);
             this.omni.appendChild(listItem);
         }
+    },
+    searchLists(){
+        const textObj = document.getElementById("searchText");
+        const text = textObj.value;
+        document.getElementById("SearchH3").className = "visible";
+        console.log("Search: " + text);
+        if(text !== ""){
+            app.search.innerHTML = "";
+            for(var i = 0; i < this.herbs.length; i++){
+                if(this.herbs[i].name.includes(text)){
+                    const listItem = this.renderListItem(this.herbs[i]);
+                    this.search.appendChild(listItem);
+                }
+            }
+            for(var i = 0; i < this.carns.length; i++){
+                if(this.carns[i].name.includes(text)){
+                    const listItem = this.renderListItem(this.carns[i]);
+                    this.search.appendChild(listItem);
+                }
+            }
+            for(var i = 0; i < this.omnis.length; i++){
+                if(this.omnis[i].name.includes(text)){
+                    const listItem = this.renderListItem(this.omnis[i]);
+                    this.search.appendChild(listItem);
+                }
+            }
+        }
+        else{
+            app.search.innerHTML = "<center><span>No results found</span></center>"
+        }
+
+        textObj.value = "";
     }
 
 }
 app.init({
         formSelector: "#dino-form",
-        listSelector: "#dino-list",
         herbSelector: "#herb-list",
         carnSelector: "#carn-list",
-        omniSelector: "#omni-list"
+        omniSelector: "#omni-list",
+        searchSelector: "#search-list"
     });
 
 Array.prototype.move = function (element, offset){

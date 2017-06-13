@@ -47,11 +47,33 @@
                         </div>
                     </div>
                 </form>
+                <form>
+                    <div class="input-group search medium-centered">
+                        <input 
+                            id="searchText"
+                            type="text" 
+                            class="input-group-field"
+                            name="searchText"
+                            placeholder="Search"
+                        >
+
+                        <div class="input-group-button">
+                            <button 
+                                type="button" 
+                                class="button success"
+                                onClick=app.searchLists()>
+                                Search
+                            </button>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
 
         <div class="row">
             <div class="small-7 small-offset-2 column">
+                <h3 id="SearchH3" class="hidden" >Search Results</h3>
+                <ul id="search-list"></ul>
                 <h3 id="HerbH3" class="hidden" >Herbivores</h3>
                 <ul id="herb-list"></ul>
                 <h3 id="CarnH3" class="hidden">Carnivores</h3>

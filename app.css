@@ -45,7 +45,6 @@ select:hover{
     border: 3px solid lightgreen; 
 }
 
-
 .dino-fact{
     padding: 0;
     float:left;
@@ -84,5 +83,10 @@ select:hover{
     opacity: 0.6;
     cursor: not-allowed;
 }
+
+.search{
+    width: 50%;
+}
+
 
 
