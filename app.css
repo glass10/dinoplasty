@@ -12,6 +12,9 @@ h3.hidden{
 h3.visible{
     visibility: visible;
 }
+button.hidden{
+    visibility: hidden;
+}
 
 ul {
     list-style-type: none;
@@ -88,8 +91,12 @@ select:hover{
     width: 50%;
 }
 
-.searchSpan{
+#SearchH3{
     float: left;
 }
+#searchButton{
+    background-color: orange !important;
+}
+
 
 

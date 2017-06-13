@@ -72,7 +72,12 @@
 
         <div class="row">
             <div class="small-7 small-offset-2 column">
-                <h3 id="SearchH3" class="hidden" >Search Results</h3>
+                <div class="input-group">
+                    <div class="input-group-button">
+                        <button id="searchButton" class="button hidden left" onClick=app.deleteSearch()>✗</button>
+                    </div>
+                    <h3 id="SearchH3" class="hidden" >Search Results</h3>
+                </div>
                 <ul id="search-list"></ul>
                 <h3 id="HerbH3" class="hidden" >Herbivores</h3>
                 <ul id="herb-list"></ul>

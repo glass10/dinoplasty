@@ -430,10 +430,11 @@ const app = {
     searchLists(){
         const textObj = document.getElementById("searchText");
         const text = textObj.value;
-        document.getElementById("SearchH3").textContent = `Search Results for "${text}"`
+        document.getElementById("SearchH3").textContent = `Search Results for "${text}"    `
         document.getElementById("SearchH3").className = "visible";
         console.log("Search: " + text);
         if(text !== ""){
+            document.getElementById("searchButton").className = "button";
             app.search.innerHTML = "";
             for(var i = 0; i < this.herbs.length; i++){
                 if(this.herbs[i].name.includes(text)){
@@ -463,6 +464,11 @@ const app = {
         }
 
         textObj.value = "";
+    },
+    deleteSearch(){
+        document.getElementById("searchButton").className = "button hidden";
+        document.getElementById("SearchH3").className = "hidden";
+        app.search.innerHTML = ""
     }
 
 }
