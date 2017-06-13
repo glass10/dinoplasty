@@ -430,6 +430,7 @@ const app = {
     searchLists(){
         const textObj = document.getElementById("searchText");
         const text = textObj.value;
+        document.getElementById("SearchH3").textContent = `Search Results for "${text}"`
         document.getElementById("SearchH3").className = "visible";
         console.log("Search: " + text);
         if(text !== ""){
