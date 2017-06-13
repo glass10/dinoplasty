@@ -97,6 +97,10 @@ select:hover{
 #searchButton{
     background-color: orange !important;
 }
+#searchButton:hover{
+    transition: all 0.30s ease-in;
+    background-color: orangered !important;
+}
 
 
 
