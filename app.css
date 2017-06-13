@@ -6,6 +6,12 @@ h3{
     font-family: 'Oswald';
     text-align: left;
 }
+h3.hidden{
+    visibility: hidden;
+}
+h3.visible{
+    visibility: visible;
+}
 
 ul {
     list-style-type: none;

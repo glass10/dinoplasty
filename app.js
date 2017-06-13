@@ -19,12 +19,15 @@ const app = {
 
         if(localStorage.getItem("herbs") !== null){
             this.herbs = JSON.parse(localStorage.getItem("herbs"));
+            document.getElementById("HerbH3").className = "visible";
         }
         if(localStorage.getItem("carns") !== null){
             this.carns = JSON.parse(localStorage.getItem("carns"));
+            document.getElementById("CarnH3").className = "visible";
         }
         if(localStorage.getItem("omnis") !== null){
             this.omnis = JSON.parse(localStorage.getItem("omnis"));
+            document.getElementById("OmniH3").className = "visible";
         }
 
         app.loopHerb();
@@ -46,14 +49,23 @@ const app = {
         }
 
         if(dino.fact === "Herbivore"){
+            if(this.herbs.length >= 0){
+                document.getElementById("HerbH3").className = "visible";
+            }
             this.herbs.unshift(dino);
             localStorage.setItem("herbs", JSON.stringify(this.herbs));
         }
         else if(dino.fact === "Carnivore"){
+            if(this.carns.length >= 0){
+                document.getElementById("CarnH3").className = "visible";
+            }
             this.carns.unshift(dino);
             localStorage.setItem("carns", JSON.stringify(this.carns));
         }
         else{
+            if(this.omnis.length >= 0){
+                document.getElementById("OmniH3").className = "visible";
+            }
             this.omnis.unshift(dino);
             localStorage.setItem("omnis", JSON.stringify(this.omnis));
         }
@@ -263,18 +275,27 @@ const app = {
             if(this.herbs[i].name === id){
                 this.herbs.splice(i, 1);
                 localStorage.setItem("herbs", JSON.stringify(this.herbs))
+                if(this.herbs.length === 0){
+                    document.getElementById("HerbH3").className = "hidden";
+                }
             }
         }
         for(var i = 0; i < this.carns.length; i++){
             if(this.carns[i].name === id){
                 this.carns.splice(i, 1);
                 localStorage.setItem("carns", JSON.stringify(this.carns))
+                if(this.carns.length === 0){
+                    document.getElementById("CarnH3").className = "hidden";
+                }
             }
         }
         for(var i = 0; i < this.omnis.length; i++){
             if(this.omnis[i].name === id){
                 this.omnis.splice(i, 1);
                 localStorage.setItem("omnis", JSON.stringify(this.omnis))
+                if(this.omnis.length === 0){
+                    document.getElementById("OmniH3").className = "hidden";
+                }
             }
         }
         app.herb.innerHTML = "";
