@@ -23,6 +23,15 @@ img{
     padding-top: 10px;
     padding-bottom: 0px;
 }
+input{
+    font-family: 'Oswald' !important;
+}
+select{
+    font-family: 'Oswald';
+}
+button{
+    font-family: 'Oswald';
+}
 .input-group-field:hover{
     transition: all 0.30s ease-in-out;
     outline: none;

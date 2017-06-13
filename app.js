@@ -91,8 +91,8 @@ const app = {
         const downLabel = dino.name+"-down";
         const starLabel = dino.name+"-star";
         let span = `<span class="input-group-label" id="${idLabel}" contenteditable="true">${dino.name}</span>`;
-        let upButton = `<input type="button" id="${upLabel}" class="button" onClick=app.up(this.parentNode.id) value="↑">`
-        let downButton = `<input type="button" id="${downLabel}" class="button" onClick=app.down(this.parentNode.id) value="↓">`
+        let upButton = `<input type="button" id="${upLabel}" class="button" onClick=app.up(this.parentNode.id) value="⬆">`
+        let downButton = `<input type="button" id="${downLabel}" class="button" onClick=app.down(this.parentNode.id) value="⬇">`
         let starButton = `<input type="button" id="${starLabel}" class="warning button" onClick=app.star(this.parentNode.id) value="★">`
         let dinoFact = `<span class="dino-fact">${dino.fact}</span>`
         
@@ -101,10 +101,10 @@ const app = {
             starButton = `<input type="button" id="${starLabel}" class="warning button select" onClick=app.star(this.parentNode.id) value="★">`
         }
         if(dino.last){
-            downButton = `<input type="button" id="${downLabel}" class="disabled button" onClick=app.down(this.parentNode.id) value="↓">`
+            downButton = `<input type="button" id="${downLabel}" class="disabled button" onClick=app.down(this.parentNode.id) value="⬇">`
         }
         if(dino.first){
-            upButton = `<input type="button" id="${upLabel}" class="disabled button" onClick=app.up(this.parentNode.id) value="↑">`
+            upButton = `<input type="button" id="${upLabel}" class="disabled button" onClick=app.up(this.parentNode.id) value="⬆">`
         }
 
         const html = `
