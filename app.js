@@ -19,20 +19,24 @@ const app = {
 
         if(localStorage.getItem("herbs") !== null){
             this.herbs = JSON.parse(localStorage.getItem("herbs"));
-            document.getElementById("HerbH3").className = "visible";
+            if(this.herbs.length > 0)
+                document.getElementById("HerbH3").className = "visible";
         }
         if(localStorage.getItem("carns") !== null){
             this.carns = JSON.parse(localStorage.getItem("carns"));
-            document.getElementById("CarnH3").className = "visible";
+            if(this.carn.length > 0)
+                document.getElementById("CarnH3").className = "visible";
         }
         if(localStorage.getItem("omnis") !== null){
             this.omnis = JSON.parse(localStorage.getItem("omnis"));
-            document.getElementById("OmniH3").className = "visible";
+            if(this.omnis.length > 0)
+                document.getElementById("OmniH3").className = "visible";
         }
 
         app.loopHerb();
         app.loopCarn();
         app.loopOmni();
+
     },
 
     addDino(ev){
@@ -344,7 +348,7 @@ const app = {
         }
         localStorage.setItem("omnis", JSON.stringify(this.omnis));
     },
-    loopHerb(sect){
+    loopHerb(){
         for(var j = 0; j < this.herbs.length; j++){
             if(j === 0){
                 this.herbs[j].first = true;
