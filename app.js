@@ -9,6 +9,7 @@ const app = {
         this.carn = document.querySelector(selectors.carnSelector);
         this.omni = document.querySelector(selectors.omniSelector);
         this.search = document.querySelector(selectors.searchSelector);
+
         document
             .querySelector(selectors.formSelector)
             .addEventListener("submit", this.addDino.bind(this))
@@ -463,12 +464,12 @@ const app = {
             app.search.innerHTML = "<center><span>No results found</span></center>"
         }
 
-        textObj.value = "";
     },
     deleteSearch(){
         document.getElementById("searchButton").className = "button hidden";
         document.getElementById("SearchH3").className = "hidden";
         app.search.innerHTML = ""
+        document.getElementById("searchText").value= "";
     }
 
 }
